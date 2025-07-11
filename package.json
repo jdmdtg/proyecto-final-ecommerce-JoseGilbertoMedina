@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "node": "^24.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "name": "server-firbase",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "type": "module"
+  },
+  "keywords": [],
+  "author": "Jose Gilberto Medina",
+  "license": "MIT",
+  "description": "API REST con Express y Firebase"
+}
