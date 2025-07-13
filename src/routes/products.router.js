@@ -2,13 +2,13 @@ import { Router } from "express";
 
 const router = Router();
 
-const products = [
-  { id: 1, name: "Camiseta Deportiva", price: 150 },
-  { id: 2, name: "Zapatos Running", price: 1200 },
-  { id: 3, name: "Mochila Escolar", price: 350 },
-  { id: 4, name: "Auriculares Bluetooth", price: 800 },
-  { id: 5, name: "Botella Térmica", price: 220 },
-];
+// const products = [
+//   { id: 1, name: "Camiseta Deportiva", price: 150 },
+//   { id: 2, name: "Zapatos Running", price: 1200 },
+//   { id: 3, name: "Mochila Escolar", price: 350 },
+//   { id: 4, name: "Auriculares Bluetooth", price: 800 },
+//   { id: 5, name: "Botella Térmica", price: 220 },
+// ];
 
 import {
   getAllProducts,
@@ -32,9 +32,9 @@ router.put("/products/:id", (req, res) => {
     return res.status(404).json({ error: "Producto no encontrado" });
   }
 
-  const { name, price } = req.body;
+  const { nameModel, price } = req.body;
 
-  products[productIndex] = { id: productId, name, price };
+  products[productIndex] = { id: productId, nameModel, price, anio, color, combustible, marca, rotation, transmision };
   res.json(products[productIndex]);
 });
 

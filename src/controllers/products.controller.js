@@ -6,13 +6,12 @@ export const getAllProducts = async (req, res) => {
   res.json(products);
 };
 
-export const searchProduct = (req, res) => {
-  const { name } = req.query;
+export const searchProduct = async (req, res) => {
+  const { nameModel } = req.query;
 
-  const products = model.getAllProducts();
+  const products = await model.getAllProducts();
 
-  const filteredProducts = products.filter((p) =>
-    p.name.toLowerCase().includes(name.toLowerCase())
+  const filteredProducts = products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase())
   );
 
   res.json(filteredProducts);
@@ -31,14 +30,11 @@ export const getProductById = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
-  const { name, price, categories } = req.body;
-
-  const newProduct = await model.createProduct({ name, price, categories });
+  const { nameModel, price, anio, color, combustible, marca, rotation, transmision } = req.body;
+  const newProduct = await model.createProduct({ nameModel, price, anio, color, combustible, marca, rotation, transmision });
 
   res.status(201).json(newProduct);
 };
-
-
 
 export const deleteProduct = async (req, res) => {
   const productId = req.params.id;
