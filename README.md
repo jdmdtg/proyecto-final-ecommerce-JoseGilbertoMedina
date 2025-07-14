@@ -1,3 +1,7 @@
-API Rest en Node.js
-Instalación
+# API Rest en Node.js
+
+## Instalación
+
+```bash
 npm install
+```
