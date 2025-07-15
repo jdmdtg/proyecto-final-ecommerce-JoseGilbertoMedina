@@ -12,32 +12,20 @@ const router = Router();
 
 import {
   getAllProducts,
-  searchProduct,
+  searchProducts,
   getProductById,
   createProduct,
   deleteProduct,
+  updateProducts,
+  updatePartProducts,
 } from "../controllers/products.controller.js";
 
 router.get("/products", getAllProducts);
-router.get("/products/search", searchProduct);
+router.get("/products/search/:tipo", searchProducts);
 router.get("/products/:id", getProductById);
-
 router.post("/products", createProduct);
-
-router.put("/products/:id", (req, res) => {
-  const productId = parseInt(req.params.id, 10);
-  const productIndex = products.findIndex((p) => p.id === productId);
-
-  if (productIndex === -1) {
-    return res.status(404).json({ error: "Producto no encontrado" });
-  }
-
-  const { nameModel, price } = req.body;
-
-  products[productIndex] = { id: productId, nameModel, price, anio, color, combustible, marca, rotation, transmision };
-  res.json(products[productIndex]);
-});
-
+router.put("/products/:id", updateProducts);
+router.patch("/products/:id", updatePartProducts);
 router.delete("/products/:id", deleteProduct);
 
 export default router;

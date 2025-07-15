@@ -1,13 +1,14 @@
 import fs from "fs";
 import path from "path";
 
+
 const __dirname = import.meta.dirname;
 
 const jsonPath = path.join(__dirname, "./products.json");
 const json = fs.readFileSync(jsonPath, "utf-8");
 const products = JSON.parse(json);
 
-// console.log(products);
+ 
 
 import { db } from "./data.js";
 import {
@@ -21,7 +22,7 @@ import {
 } from "firebase/firestore";
 
 const productsCollection = collection(db, "products");
-
+//GET ALL PRODUCTS
 export const getAllProducts = async () => {
   try {
     const snapshot = await getDocs(productsCollection);
@@ -30,7 +31,7 @@ export const getAllProducts = async () => {
     console.error(error);
   }
 };
-
+//GET PRODUCT BY ID 
 export const getProductById = async (id) => {
   try {
     const productRef = doc(productsCollection, id);
@@ -41,6 +42,7 @@ export const getProductById = async (id) => {
   }
 };
 
+//POST 
 export const createProduct = async (data) => {
   try {
     const docRef = await addDoc(productsCollection, data);
@@ -50,35 +52,45 @@ export const createProduct = async (data) => {
   }
 };
 
-// PUT
+// PUT 
 export async function updateProduct(id, productData) {
   try {
     const productRef = doc(productsCollection, id);
     const snapshot = await getDoc(productRef);
-
     if (!snapshot.exists()) {
       return false;
     }
-
     await setDoc(productRef, productData); // reemplazo completo
     return { id, ...productData };
   } catch (error) {
     console.error(error);
   }
 }
-
+//DELETE 
 export const deleteProduct = async (id) => {
   try {
     const productRef = doc(productsCollection, id);
     const snapshot = await getDoc(productRef);
-
     if (!snapshot.exists()) {
       return false;
     }
-
     await deleteDoc(productRef);
     return true;
   } catch (error) {
     console.error(error);
   }
 };
+
+//PATCH
+export async function updatePartProducts(id, newPrice) {
+  try {
+    const products = doc(db, "products", id);
+    const productData={ price: newPrice,};
+    const productDatas = await setDoc(products, productData, { merge: true });
+    if (!productDatas) {
+      return true;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
