@@ -1,13 +1,16 @@
 import fs from "fs";
 import path from "path";
-
-
+ 
 const __dirname = import.meta.dirname;
 
 const jsonPath = path.join(__dirname, "./products.json");
 const json = fs.readFileSync(jsonPath, "utf-8");
 const products = JSON.parse(json);
 
+const Users_jsonPath = path.join(__dirname, "./users.json");
+const User_json = fs.readFileSync(Users_jsonPath, "utf-8");
+const users = JSON.parse(User_json);
+// console.log(Users_jsonPath);
 
 import { db } from "./data.js";
 import {
@@ -30,6 +33,17 @@ export const getAllProducts = async () => {
     console.error(error);
   }
 };
+
+export const getAllUsers = async () => {
+  try {
+    // const snapshot = await getDocs(users);
+    // return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    return users;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 //GET PRODUCT BY ID 
 export const getProductById = async (id) => {
   try {

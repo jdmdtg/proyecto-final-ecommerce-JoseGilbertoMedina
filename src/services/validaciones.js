@@ -1,6 +1,25 @@
 import { error } from "console";
 import { EmailAuthProvider } from "firebase/auth/web-extension";
 
+export const _login = (login, password ) => {
+    if (typeof login !== "string" || login.trim() === "") {
+        throw new Error("El usuario es requerido y debe ser una cadena no vacía.");
+    }
+    if (login.length < 3 || login.length > 20) {
+        throw new Error("El usuario debe tener entre 3 y 20 caracteres.");  
+    }
+    if (!/^[a-zA-Z0-9]+$/.test(login)) {
+        throw new Error("El usuario solo puede contener letras y números.");
+    }   
+
+    if(typeof password !== "string" || password.trim() === "") {
+        throw new Error("El sing es requerido y debe ser una cadena no vacía.");
+    }
+    if(!/^[a-zA-Z0-9]+$/.test(password)){
+        throw new Error("El sing solo puede contener letras y números.");   
+    }
+}
+
 export const _anio= (anio) => {
     if(isNaN(anio)){
         throw new Error("El año debe ser un número válido.");
@@ -18,13 +37,16 @@ export const _anio= (anio) => {
     }       
 };
 
-export const _precio = (precio) => {
-    if (typeof precio !== "number" || precio <= 0) {
+export const _precio = (price) => {
+    if (typeof price !== "number" || price <= 0) {
         throw new Error("El precio debe ser un número positivo.");
     }
-    if(isNaN(precio)){
+    if(isNaN(price)){
         throw new Error("El precio debe ser un número válido.");
-    }    
+    } 
+    if (!price) {
+      return res.status(400).json({ error: "El precio es requerido para actualizar el producto." });
+    }     
 }  ; 
 
 export const _color = (color) => {
@@ -97,3 +119,47 @@ export const _transmision = (transmision) => {
         throw new Error("La transmisión solo puede contener letras y espacios.");
     }
 };
+
+export const _updateProduct = (productData, id) => {
+    if (!id || typeof id !== "string") {
+        throw new Error("El ID del producto es requerido y debe ser una cadena no vacía.");
+    }
+    if (typeof productData !== "object" || productData === null) {
+        throw new Error("Los datos del producto deben ser un objeto válido.");
+    }
+    
+    if (productData.nameModel) {
+        _nombreModelo(productData.nameModel);
+    }
+    if (productData.price) {
+        _precio(productData.price);
+    }
+    if (productData.anio) {
+        _anio(productData.anio);
+    }
+    if (productData.color) {
+        _color(productData.color);
+    }
+    if (productData.combustible) {
+        _combustible(productData.combustible);
+    }
+    if (productData.marca) {
+        _marca(productData.marca);
+    }
+    if (productData.rotation) {
+        _rotation(productData.rotation);
+    }       
+    if (productData.transmision) {
+        _transmision(productData.transmision);
+    }
+}  
+
+export const _id = (id) => {
+    if(id == " " || id === null){
+        throw new Error("El ID es requerido y debe ser una cadena no vacía.");
+    }
+    
+    if(id === undefined){
+        throw new Error("El ID es requerido y debe ser una cadena no vacía.");
+    } 
+};  

@@ -1,3 +1,4 @@
+import { create } from "domain";
 import * as model from "../models/products.model.js";
 import * as validaciones from "../services/validaciones.js";
 
@@ -17,6 +18,7 @@ export const getAllProducts = async (req, res) => {
 };
 // searchProducts, user can search by nameModel, anio, color, marca, rotation, 
 // nameModelo & anio, marca & nameModel & anio
+
 export const searchProducts = async (req, res) => {
   try{
     const { nameModel } = req.query;
@@ -25,10 +27,28 @@ export const searchProducts = async (req, res) => {
     const { marca} = req.query;
     const { tipo } = req.params;
     const { rotation } = req.query;
+    const { login } = req.query;
+    const { password } = req.query;
     const products = await model.getAllProducts();
+    const users = await model.getAllUsers();
     // const filteredProducts = products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase()));
 
     switch (tipo) {
+      case "login":
+        // Validación del login
+        validaciones._login(login,password);
+        if (login) {
+          const filterLogin = await users.filter((u) => u.login.toLowerCase() === login.toLowerCase() && u.password === password  );
+          if(filterLogin.length > 0){
+            return res.status(200).json(filterLogin);
+            //se crea un token y se retorna
+          //  const ddd = createToken(filters[0].id, filters[0].rol);
+          //  return res.status(200).json({ "token": ddd, "user": filters[0] });
+          }
+          }else{
+            return res.status(404).json({ error: "No se encontraron usuarios con ese login." });
+          }
+        
       case "anio":
         // Validación del año        
         validaciones._anio(parseInt(anio));
@@ -138,6 +158,7 @@ export const getProductById = async (req, res) => {
 // createProduct
 export const createProduct = async (req, res) => {
   try{
+    // Extraigo los datos del body
     const { nameModel, price, anio, color, combustible, marca, rotation, transmision } = req.body;
     // Validación de campos requeridos
     validaciones._nombreModelo(nameModel);
@@ -168,13 +189,16 @@ export const createProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try{
     const productId = req.params.id;
-   
+   validaciones._id(productId);
+    // Verificar si el producto existe
     const product = await model.deleteProduct(productId);
     if (!product) {
       return res.status(404).json({ error: "Producto no encontrado."});
-    }else{
+    }
+    if(product.length = 0){
       return res.status(204).json({"product" : productId, "ok":"Producto Fué Eliminado."});
     }
+
     // res.status(204).send();
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -185,6 +209,7 @@ export const updateProducts = async (req, res) => {
   try {
     const { id } = req.params;
     const productData = req.body;
+    validaciones._updateProduct(productData, id);
     const updatedProduct = await model.updateProduct(id, productData);
     if (!updatedProduct) {
       return res.status(404).json({ error: "Producto no encontrado" });
@@ -201,9 +226,7 @@ export const updatePartProducts = async (req, res) => {
   try {
     const { id } = req.params;
     const { price } = req.body;
-    if (!price) {
-      return res.status(400).json({ error: "El precio es requerido para actualizar el producto." });
-    }  
+    validaciones._precio(price);
     const products = await model.updatePartProducts(id, price);
     if(products){
       return res.status(200).json({"product":id,"Price" : price, "ok" : "Producto actualizado correctamente"});
