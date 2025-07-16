@@ -1,3 +1,4 @@
+import { error } from "console";
 import { EmailAuthProvider } from "firebase/auth/web-extension";
 
 export const _anio= (anio) => {
@@ -28,8 +29,11 @@ export const _precio = (precio) => {
 
 export const _color = (color) => {
     if (typeof color !== "string" || color.trim() === "") { 
-        throw new Error("El color es requerido y debe ser una cadena no vacía.");
+        throw new Error ( "El color es requerido y debe ser una cadena no vacía.");  
     }
+    if(!/^[a-zA-Z\s]+$/.test(color)){
+            throw new Error("El color solo puede contener letras y espacios.");
+        }
 };
 
 export const _nombreModelo = (nameModel) => {

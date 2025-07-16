@@ -7,8 +7,10 @@ export const getAllProducts = async (req, res) => {
     const products = await model.getAllProducts();
     if (!products) {
       res.status(404).json({ error: "Se genero un Problema al consultar los productos." });
+    }else{
+       res.status(200).json(products);
     }
-    res.json(products);
+   
   } catch (err) { 
     res.status(500).json({ message: err.message });
   };
@@ -31,42 +33,72 @@ export const searchProducts = async (req, res) => {
         // Validación del año        
         validaciones._anio(parseInt(anio));
         if (anio) {
-          return res.json(products.filter((p) => p.anio === parseInt(anio)));
+         const filterAnio = await products.filter((p) => p.anio === parseInt(anio));
+        
+         if(filterAnio.length > 0){
+           return res.status(200).json(filterAnio);
+          }else{
+           return res.status(404).json({ error: "No se encontraron productos con ese año." }); 
+          }
         }         
       case "color":
         // Validación del color
-        validaciones._color(parseInt(color));
+        validaciones._color(color) ;
         if (color) {
-          return res.json(products.filter((p) => p.color.toLowerCase() === color.toLowerCase()));
+          const filterColor = await products.filter((p) => p.color.toLowerCase().includes(color.toLowerCase()) || p.color === color); 
+        if(filterColor.length > 0){
+          return res.status(200).json(filterColor); 
+        }else{
+          return res.status(404).json({ error: "No se encontraron productos con ese color." });
         }
-        return res.status(400).json({ error: "El color es requerido para la búsqueda." });      
+       }
       case "nameModel":
         // Validación del nombre del modelo
         validaciones._nombreModelo(nameModel);
         if (nameModel) {
-          return res.json(products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase())));
+          const filterNameModel = await products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase()) || p.nameModel === nameModel);
+          if(filterNameModel.length > 0){
+            return res.status(200).json(filterNameModel); 
+          }else{
+            return res.status(404).json({ error: "No se encontraron productos con ese nombre de modelo." });
+          }
         }
-        return res.status(400).json({ error: "El nombre del modelo es requerido para la búsqueda." });  
+         
+
       case "nameModelo&anio":
         // Validación del nombre del modelo y el año
         validaciones._anio(parseInt(anio));
         validaciones._nombreModelo(nameModel);
         if (nameModel && anio) {
-          return res.json(products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase()) && p.anio === parseInt(anio)));          
+          const filterret_nameModelo_Anio = await products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase()) && p.anio === parseInt(anio));          
+          if(filterret_nameModelo_Anio.length > 0){
+            return res.status(200).json(filterret_nameModelo_Anio); 
+          }else{
+            return res.status(404).json({ error: "No se encontraron productos con ese nombre de modelo y año." });
+          }
         }
       case "rotation":
         // Validación de la rotación
         validaciones._rotation(rotation);
         if (rotation) {
-          return res.json(products.filter((p) => p.rotation.toLowerCase() === rotation.toLowerCase()));
+          const filter_rotation = await products.filter((p) => p.rotation.toLowerCase() === rotation.toLowerCase());
+          if(filter_rotation.length > 0){
+            return res.status(200).json(filter_rotation);   
+          }else{
+            return res.status(404).json({ error: "No se encontraron productos con esa rotación." });
+          } 
         }
       case "marca":
           // Validación de la marca
           validaciones._marca(marca);
           if (marca) {
-            console.log(marca); 
-            return res.json(products.filter((p) => p.marca.toLowerCase() === marca.toLowerCase()));
-            console.log(products);
+            const filterMarca = await products.filter((p) => p.marca.toLowerCase().includes(marca.toLowerCase()));
+            if(filterMarca.length > 0){ 
+              return res.status(200).json(filterMarca); 
+            }
+            else{
+              return res.status(404).json({ "error": "No se encontraron productos con esa marca." });
+            } 
           }         
       case "marca&nameModel&anio":
         // Validación de la marca, nombre del modelo y año
@@ -75,7 +107,12 @@ export const searchProducts = async (req, res) => {
         validaciones._anio(parseInt(anio));
 
         if (nameModel && anio && marca) {
-          return res.json(products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase()) && p.anio === parseInt(anio) && p.marca.toLowerCase() === marca.toLowerCase()));
+          const marca_nameModel_anio = await products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase()) && p.anio === parseInt(anio) && p.marca.toLowerCase().includes(marca.toLowerCase()));
+          if(marca_nameModel_anio.length > 0){
+            return res.status(200).json(marca_nameModel_anio);  
+          }else{
+            return res.status(404).json({ "error": "No se encontraron productos con esa marca, nombre de modelo y año." });
+          } 
         }
 
       default:
@@ -131,14 +168,14 @@ export const createProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try{
     const productId = req.params.id;
-    // console.log(productId);
+   
     const product = await model.deleteProduct(productId);
     if (!product) {
-      return res.status(404).json({ error: "Producto no encontrado." });
+      return res.status(404).json({ error: "Producto no encontrado."});
     }else{
-      return res.status(200).send(" Producto Fué Eliminado.");
+      return res.status(204).json({"product" : productId, "ok":"Producto Fué Eliminado."});
     }
-    res.status(204).send();
+    // res.status(204).send();
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -152,7 +189,7 @@ export const updateProducts = async (req, res) => {
     if (!updatedProduct) {
       return res.status(404).json({ error: "Producto no encontrado" });
     }else{
-      return res.status(200).send('Producto actualizado correctamente');
+      return res.status(200).json({"Product" : id, "ok":'Producto actualizado correctamente'});
     };
     res.json(updatedProduct);
   } catch (err) {
@@ -169,12 +206,11 @@ export const updatePartProducts = async (req, res) => {
     }  
     const products = await model.updatePartProducts(id, price);
     if(products){
-      // products.price = price || products.price;
-      return res.status(200).send('Producto actualizado correctamente');
+      return res.status(200).json({"product":id,"Price" : price, "ok" : "Producto actualizado correctamente"});
     }else{
-      return res.status(404).json({ error: "Producto no encontrado" });
+      return res.status(404).json({error: "Producto no encontrado" });
     }
-      res.json(products);
+     
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
