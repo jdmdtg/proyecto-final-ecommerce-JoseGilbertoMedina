@@ -21,13 +21,13 @@ import {
 } from "../controllers/products.controller.js";
 
 //logueo
-
+import { auth } from "../middleware/auth.middleware.js";
 router.get("/products", getAllProducts);
 router.get("/products/search/:tipo", searchProducts);
 router.get("/products/:id", getProductById);
-router.post("/products", createProduct);
-router.put("/products/:id", updateProducts);
-router.patch("/products/:id", updatePartProducts);
-router.delete("/products/:id", deleteProduct);
+router.post("/products", auth ,createProduct);
+router.put("/products/:id", auth, updateProducts);
+router.patch("/products/:id", auth, updatePartProducts);
+router.delete("/products/:id", auth, deleteProduct);
 
 export default router;
