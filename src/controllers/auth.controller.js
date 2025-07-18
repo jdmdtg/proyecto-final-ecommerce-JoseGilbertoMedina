@@ -15,9 +15,9 @@ import jwt from 'jsonwebtoken';
             // const payload = { id: user.id};
             const payload = { user };
             const expiration = {expiresIn: "8h"}; // El token expirará en 1 hora
-            const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, expiration)
+            const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, expiration);
             res.json({ token }); 
         } else { 
             res.sendStatus(401).json({ error: "Credenciales inválidas" }); 
-        } 
+        } ;
     };

@@ -5,7 +5,7 @@ export const auth = (req, res, next) => {
 
     if (!token) {
         return res.sendstatus(401).json({ error: "Token no proporcionado" });
-    }
+    };
 
     try {
         jwt.verify(token, process.env.JWT_SECRET_KEY, (error) => {
@@ -16,5 +16,5 @@ export const auth = (req, res, next) => {
         }); // Continuar con la siguiente función middleware o ruta
     } catch (error) {
         return res.status(401).json({ error: "Token inválido" });
-    }
-}
+    };
+};
