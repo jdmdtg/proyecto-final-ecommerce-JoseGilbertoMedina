@@ -21,7 +21,7 @@ app.use("/api", productsRouter);
 // importamos las rutas auth
 // (authentication, login, register, etc.)
 import authRouter from "./src/routes/auth.router.js";
-app.use(authRouter);
+app.use('/api', authRouter);
 // app.use("/api", authRouter);
 //prevenimos para que las rutas no encontradas devuelvan un error 404
 app.use((req, res, next) => {
