@@ -22,8 +22,8 @@ import {
 
 //logueo
 
-router.get("/products/search/:tipo", searchProducts);
 router.get("/products", getAllProducts);
+router.get("/products/search/:tipo", searchProducts);
 router.get("/products/:id", getProductById);
 router.post("/products", createProduct);
 router.put("/products/:id", updateProducts);

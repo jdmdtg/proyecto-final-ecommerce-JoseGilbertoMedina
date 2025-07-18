@@ -1,6 +1,6 @@
 import { create } from "domain";
 import * as model from "../models/products.model.js";
-import * as validaciones from "../services/validaciones.js";
+import * as validation from "../services/validation.js";
 
 // getAllProducts
 export const getAllProducts = async (req, res) => {
@@ -36,7 +36,7 @@ export const searchProducts = async (req, res) => {
     switch (tipo) {
       case "login":
         // Validación del login
-        validaciones._login(login,password);
+        validation._login(login,password);
         if (login) {
           const filterLogin = await users.filter((u) => u.login.toLowerCase() === login.toLowerCase() && u.password === password  );
           if(filterLogin.length > 0){
@@ -51,7 +51,8 @@ export const searchProducts = async (req, res) => {
         
       case "anio":
         // Validación del año        
-        validaciones._anio(parseInt(anio));
+        validation._anio(parseInt(anio));
+        // podemos buscar por año.
         if (anio) {
          const filterAnio = await products.filter((p) => p.anio === parseInt(anio));
         
@@ -63,9 +64,10 @@ export const searchProducts = async (req, res) => {
         }         
       case "color":
         // Validación del color
-        validaciones._color(color) ;
+        validation._color(color) ;
+        // podemos buscar por color ó por algunas letras del color.
         if (color) {
-          const filterColor = await products.filter((p) => p.color.toLowerCase().includes(color.toLowerCase()) || p.color === color); 
+          const filterColor = await products.filter((p) => p.color.toLowerCase().includes(color.toLowerCase()) || p.color.toLowerCase() === color.toLowerCase()); 
         if(filterColor.length > 0){
           return res.status(200).json(filterColor); 
         }else{
@@ -73,10 +75,11 @@ export const searchProducts = async (req, res) => {
         }
        }
       case "nameModel":
-        // Validación del nombre del modelo
-        validaciones._nombreModelo(nameModel);
+        // Validación del nombre del modelo        
+        validation._nombreModelo(nameModel);
+        // podemos buscar por nombre de modelo ó por algunas letras del nombre de modelo.
         if (nameModel) {
-          const filterNameModel = await products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase()) || p.nameModel === nameModel);
+          const filterNameModel = await products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase()) || p.nameModel.toLowerCase() === nameModel.toLowerCase());
           if(filterNameModel.length > 0){
             return res.status(200).json(filterNameModel); 
           }else{
@@ -86,11 +89,13 @@ export const searchProducts = async (req, res) => {
          
 
       case "nameModelo&anio":
-        // Validación del nombre del modelo y el año
-        validaciones._anio(parseInt(anio));
-        validaciones._nombreModelo(nameModel);
+        // Validación del nombre del modelo y el año        
+        validation._anio(parseInt(anio));
+        validation._nombreModelo(nameModel);
+        // podemos buscar por nombre de modelo y año.
         if (nameModel && anio) {
-          const filterret_nameModelo_Anio = await products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase()) && p.anio === parseInt(anio));          
+          // const filterret_nameModelo_Anio = await products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase()) && p.anio === parseInt(anio));          
+          const filterret_nameModelo_Anio = await products.filter((p) => p.nameModel.toLowerCase() == nameModel.toLowerCase() && p.anio === parseInt(anio));          
           if(filterret_nameModelo_Anio.length > 0){
             return res.status(200).json(filterret_nameModelo_Anio); 
           }else{
@@ -99,7 +104,8 @@ export const searchProducts = async (req, res) => {
         }
       case "rotation":
         // Validación de la rotación
-        validaciones._rotation(rotation);
+        validation._rotation(rotation);
+        // podemos buscar por rotación.
         if (rotation) {
           const filter_rotation = await products.filter((p) => p.rotation.toLowerCase() === rotation.toLowerCase());
           if(filter_rotation.length > 0){
@@ -110,9 +116,10 @@ export const searchProducts = async (req, res) => {
         }
       case "marca":
           // Validación de la marca
-          validaciones._marca(marca);
+          validation._marca(marca);
+          // se puede buscar por marca. ó por algunas letras de la marca.
           if (marca) {
-            const filterMarca = await products.filter((p) => p.marca.toLowerCase().includes(marca.toLowerCase()));
+            const filterMarca = await products.filter((p) => p.marca.toLowerCase().includes(marca.toLowerCase()) || p.marca.toLowerCase() == marca.toLowerCase());
             if(filterMarca.length > 0){ 
               return res.status(200).json(filterMarca); 
             }
@@ -122,12 +129,12 @@ export const searchProducts = async (req, res) => {
           }         
       case "marca&nameModel&anio":
         // Validación de la marca, nombre del modelo y año
-        validaciones._marca(marca);
-        validaciones._nombreModelo(nameModel);
-        validaciones._anio(parseInt(anio));
-
+        validation._marca(marca);
+        validation._nombreModelo(nameModel);
+        validation._anio(parseInt(anio));
+        //buscara por marca, nombre de modelo y año.
         if (nameModel && anio && marca) {
-          const marca_nameModel_anio = await products.filter((p) => p.nameModel.toLowerCase().includes(nameModel.toLowerCase()) && p.anio === parseInt(anio) && p.marca.toLowerCase().includes(marca.toLowerCase()));
+          const marca_nameModel_anio = await products.filter((p) => p.nameModel.toLowerCase() == nameModel.toLowerCase() && p.anio === parseInt(anio) && p.marca.toLowerCase() == marca.toLowerCase());
           if(marca_nameModel_anio.length > 0){
             return res.status(200).json(marca_nameModel_anio);  
           }else{
@@ -161,14 +168,14 @@ export const createProduct = async (req, res) => {
     // Extraigo los datos del body
     const { nameModel, price, anio, color, combustible, marca, rotation, transmision } = req.body;
     // Validación de campos requeridos
-    validaciones._nombreModelo(nameModel);
-    validaciones._precio(price);      
-    validaciones._anio(anio);
-    validaciones._color(color);
-    validaciones._marca(marca);
-    validaciones._combustible(combustible);
-    validaciones._rotation(rotation);
-    validaciones._transmision(transmision);
+    validation._nombreModelo(nameModel);
+    validation._precio(price);      
+    validation._anio(anio);
+    validation._color(color);
+    validation._marca(marca);
+    validation._combustible(combustible);
+    validation._rotation(rotation);
+    validation._transmision(transmision);
 
     //valido la existenecia.
     const products = await model.getAllProducts();
@@ -189,7 +196,7 @@ export const createProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try{
     const productId = req.params.id;
-   validaciones._id(productId);
+   validation._id(productId);
     // Verificar si el producto existe
     const product = await model.deleteProduct(productId);
     if (!product) {
@@ -209,7 +216,7 @@ export const updateProducts = async (req, res) => {
   try {
     const { id } = req.params;
     const productData = req.body;
-    validaciones._updateProduct(productData, id);
+    validation._updateProduct(productData, id);
     const updatedProduct = await model.updateProduct(id, productData);
     if (!updatedProduct) {
       return res.status(404).json({ error: "Producto no encontrado" });
@@ -226,7 +233,7 @@ export const updatePartProducts = async (req, res) => {
   try {
     const { id } = req.params;
     const { price } = req.body;
-    validaciones._precio(price);
+    validation._precio(price);
     const products = await model.updatePartProducts(id, price);
     if(products){
       return res.status(200).json({"product":id,"Price" : price, "ok" : "Producto actualizado correctamente"});

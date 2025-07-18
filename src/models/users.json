@@ -1,21 +1,18 @@
 [
   {
     "id": 1,
-    "login": "admin",
-    "password": "admin123",
-    "rol" : 1
+    "email": "admin@apirest.com",
+    "password": "admin123"    
   },
   {
     "id": 2,
-    "login": "jmedina",
-    "password": "1234",
-    "rol" : 1
+    "email": "jmedina@apirest.com",
+    "password": "1234"
   },
     {
     "id": 3,
-    "login": "jperez",
-    "password": "12345",
-    "rol" : 0
+    "email": "jpere@apirest.com",
+    "password": "12345"
   }
 
   
