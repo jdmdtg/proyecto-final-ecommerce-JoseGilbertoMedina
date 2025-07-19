@@ -163,7 +163,7 @@ PUT /api/productos/lQHmGArLrtR1R7V0Ziat
 
 **Body (ejemplo):**
 
-```Ejemplo de json que se deberia pasar.
+``` 
 
 {
     "marca": "peugeot",
@@ -178,7 +178,7 @@ PUT /api/productos/lQHmGArLrtR1R7V0Ziat
 
 ```
 Ejemplo de respuesta:
-````
+```
 {
     "Product": "nCMkQQd8rYuGpzam2Jgs",
     "ok": "Producto actualizado correctamente"
@@ -192,6 +192,8 @@ Ejemplo de respuesta:
 Modifica solo el campos price del producto indicado por ID.
 
 ```
+
+```
 PATCH /api/productos/:id
 ```
 Ejemplo.
@@ -200,14 +202,13 @@ PATCH /api/productos/lQHmGArLrtR1R7V0Ziat
 
 **Body (ejemplo):**
 
-```Ejemplo de json que se deberia pasar.
 {
   "precio": 70000
 }
 
-```
+
 Ejemplo de respuesta.
-```
+
 {
     "product": "lQHmGArLrtR1R7V0Ziat",
     "Price": 10000,
@@ -231,7 +232,7 @@ DELETE /api/productos/hVhqJlh765cdNaGYPWVv
 Ejemplo de Respuesta:
 
 Not 204 No Content.
-
+---
 
 ### Buscar productos por campos (GET).
 
@@ -242,8 +243,9 @@ GET /api/products/search/:tipo?{campo}={valor}&{campo}={valor}
 
 Ejemplo de Busqueda.
 
+```
 GET /api/products/search/anio?anio=2025
-
+```
 Ejemplo de Respuesta:
 
 {
@@ -271,10 +273,12 @@ GET /api/products/search/:tipo?{campo}={valor}&{campo}={valor}
 
 Ejemplo de Busqueda.
 
+```
 GET /api/products/search/color?color=verde or /api/products/search/color?color=ver
+```
 
 Ejemplo de Respuesta:
-
+```
 {
         "id": "hVhqJlh765cdNaGYPWVv",
         "anio": 2025,
@@ -286,9 +290,8 @@ Ejemplo de Respuesta:
         "price": 10000,
         "color": "verde"
 }
-
-
 ```
+
 Para Buscar Por nameModel del producto.
 
 ```
@@ -300,8 +303,9 @@ GET /api/products/search/:tipo?{campo}={valor}&{campo}={valor}
 
 Ejemplo de Busqueda.
 
+```
 GET /api/products/search/nameModel?nameModel=cadeeeidella 1.4 or /api/products/search/nameModel?nameModel=cadee
-
+```
 Ejemplo de Respuesta:
 
 {
@@ -327,8 +331,9 @@ Para Buscar Por Rotation del producto.
 GET /api/products/search/:tipo?{campo}={valor}&{campo}={valor}
 
 Ejemplo de Busqueda.
-
+```
 GET /api/products/search/rotation?rotation=A 
+```
 
 Ejemplo de Respuesta:
 
@@ -357,7 +362,9 @@ GET /api/products/search/:tipo?{campo}={valor}&{campo}={valor}
 
 Ejemplo de Busqueda.
 
+```
 GET /api/products/search/marca?marca=peugeot or GET /api/products/search/marca?marca=peug
+```
 
 Ejemplo de Respuesta:
 
@@ -375,9 +382,6 @@ Ejemplo de Respuesta:
 
 
 ```
-
-
-
 ## Códigos de estado
 
 - `200` - OK: Operación exitosa
