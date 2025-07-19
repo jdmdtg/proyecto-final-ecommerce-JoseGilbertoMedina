@@ -198,7 +198,7 @@ Ejemplo.
 PATCH /api/productos/lQHmGArLrtR1R7V0Ziat
 
 **Body (ejemplo):**
-
+```
 {
   "precio": 70000
 }
