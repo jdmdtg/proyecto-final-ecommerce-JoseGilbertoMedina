@@ -404,7 +404,7 @@ src/
 │    └── products.router.js
 │
 ├── services/
-└── products.service.js
+     └── products.service.js
 
 ```
 
