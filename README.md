@@ -3,7 +3,7 @@
 ## Descripción del Servidor.
 
 Servidor Desarrollado con: ** Node.js y ** Express **. Conectado a ** Firebase ** (Firestore), para el manejos de documentos. Alojado en la plataforma Vercel, para su distribución. 
-Lleva por nombre: API REST para ABM de Autos de la Marca Diferentes.  
+Lleva por nombre: API REST para ABM de Autos de diferentes Marcas.  
 
 ##  Funcionalidades.
 - Permite el alta de los datos del auto.
@@ -28,7 +28,7 @@ Lleva por nombre: API REST para ABM de Autos de la Marca Diferentes.
 ## Instalación
 
 1. Clonar el repositorio mediante github si no lo tenes instalalo, usa la consola y escribe:
-    git https://github.com/jdmdtg/proyecto-final-ecommerce-JoseGilbertoMedina.git
+    git clone https://github.com/jdmdtg/proyecto-final-ecommerce-JoseGilbertoMedina.git
 
 2. Instalar dependencias:
 
@@ -81,7 +81,7 @@ POST /api/jmedina
 
 Devuelve un token JWT si las credenciales son válidas.
 
-Ejemplo de Respuiesta: 
+Ejemplo de Respuesta: 
 
 "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxfSwiaWF0IjoxNzUyODkzMTc5LCJleHAiOjE3NTI5MjE5Nzl9.UE7_kHuB9dreaID8k1DWtbAnWvv55cK6e_n-QBp"
 
@@ -120,6 +120,7 @@ POST /api/products
     - G: Gas.
     - D: Diesel.
     - E: Energia Electrica.
+    - H: Hidrógeno.
 
 ## Rotation existentes:
     - A: Alta.
@@ -176,6 +177,13 @@ PUT /api/productos/lQHmGArLrtR1R7V0Ziat
 }
 
 ```
+Ejemplo de respuesta:
+````
+{
+    "Product": "nCMkQQd8rYuGpzam2Jgs",
+    "ok": "Producto actualizado correctamente"
+}
+```
 
 #### ✏️ Actualizar parcialmente un producto (PATCH)
 
@@ -199,7 +207,7 @@ PATCH /api/productos/lQHmGArLrtR1R7V0Ziat
 
 ```
 Ejemplo de respuesta.
-
+```
 {
     "product": "lQHmGArLrtR1R7V0Ziat",
     "Price": 10000,
@@ -263,7 +271,7 @@ GET /api/products/search/:tipo?{campo}={valor}&{campo}={valor}
 
 Ejemplo de Busqueda.
 
-GET /api/products/search/color?color=verde or /api/search/color?color=ver
+GET /api/products/search/color?color=verde or /api/products/search/color?color=ver
 
 Ejemplo de Respuesta:
 
@@ -292,7 +300,7 @@ GET /api/products/search/:tipo?{campo}={valor}&{campo}={valor}
 
 Ejemplo de Busqueda.
 
-GET /api/products/search/nameModel?nameModel=cadeeeidella 1.4 or /api/search/nameModel?nameModel=cadee
+GET /api/products/search/nameModel?nameModel=cadeeeidella 1.4 or /api/products/search/nameModel?nameModel=cadee
 
 Ejemplo de Respuesta:
 
@@ -308,34 +316,6 @@ Ejemplo de Respuesta:
         "color": "verde"
 }
 
-
-```
-Para Buscar Por nameModel y anio del producto.
-
-```
-- Podemos buscar por el nameModel y anio nombre exacto.
-
-```
-GET /api/products/search/:tipo?{campo}={valor}&{campo}={valor}
-
-Ejemplo de Busqueda.
-
-GET /api/products/search/nameModel&anio?nameModel=cadeeeidella 1.4&anio=2025 
-
-Ejemplo de Respuesta:
-
-{
-        "id": "hVhqJlh765cdNaGYPWVv",
-        "anio": 2025,
-        "combustible": "N",
-        "rotation": "A",
-        "marca": "peugeot",
-        "transmision": "M",
-        "nameModel": "cadeeeidella 1.4",
-        "price": 10000,
-        "color": "verde"
-}
- 
 
 ```
 Para Buscar Por Rotation del producto.
@@ -377,7 +357,7 @@ GET /api/products/search/:tipo?{campo}={valor}&{campo}={valor}
 
 Ejemplo de Busqueda.
 
-GET /api/products/search/marca?marca=peugeot or GET /api/search/marca?marca=peug
+GET /api/products/search/marca?marca=peugeot or GET /api/products/search/marca?marca=peug
 
 Ejemplo de Respuesta:
 
@@ -395,31 +375,6 @@ Ejemplo de Respuesta:
 
 
 ```
-Para Buscar Por Marca, nameModel, anio del producto.
-
-```
-- Podemos buscar por el nombre exacto de cada campo.
- 
-```
-GET /api/products/search/:tipo?{campo}={valor}&{campo}={valor}
-
-Ejemplo de Busqueda.
-
-GET /api/products/search/marca&nameModel&anio?marca=peugeot&nameModel=cadeeeidella 1.4&anio=2025
-
-Ejemplo de Respuesta:
-
-{
-        "id": "hVhqJlh765cdNaGYPWVv",
-        "anio": 2025,
-        "combustible": "N",
-        "rotation": "A",
-        "marca": "peugeot",
-        "transmision": "M",
-        "nameModel": "cadeeeidella 1.4",
-        "price": 10000,
-        "color": "verde"
-}
 
 
 

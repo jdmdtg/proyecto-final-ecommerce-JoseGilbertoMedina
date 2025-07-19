@@ -99,7 +99,7 @@ export const _combustible = (combustible) => {
     }
     //N: Nafta; D: Diesel; E: Eléctrico; H: Hidrógeno; G: Gas
     if(combustible !== "N" && combustible !== "D" && combustible !== "E" && combustible !== "G" && combustible !== "H" ) {
-        throw new Error("El combustible debe ser una Letra N: Nafta; D: Diesel; E: Eléctrico; H: Hidrógeno.");
+        throw new Error("El combustible debe ser una Letra N: Nafta; D: Diesel; E: Eléctrico; H: Hidrógeno.; G: Gas.");
     }
 
     if(!/^[a-zA-Z\s]+$/.test(combustible)){
