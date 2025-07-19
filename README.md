@@ -93,7 +93,6 @@ Ejemplo de Respuesta:
 
 ## Documentación de la API
 
-'''
 
 #### ➕ Crear producto.
 
@@ -101,7 +100,7 @@ Ejemplo de Respuesta:
 POST /api/products
 ```
 
-**Body (JSON):**
+**Body(JSON):**
 
 ```Ejemplo de json que se deberia pasar.
 {
@@ -151,7 +150,7 @@ Ejemplo de respuesta.
 
 ```
 #### ✏️ Actualizar un producto (PUT)
-
+---
 Modifica todos los campos enviados del producto donde se cambio su valor, indicado por ID.
 
 ```
@@ -192,8 +191,6 @@ Ejemplo de respuesta:
 Modifica solo el campos price del producto indicado por ID.
 
 ```
-
-```
 PATCH /api/productos/:id
 ```
 Ejemplo.
@@ -217,14 +214,13 @@ Ejemplo de respuesta.
 ---
 
 #### 🗑️ Eliminar producto
-
+----
 ```
 DELETE /api/productos/:id
 ```
 
 Elimina el producto con el ID especificado.
 
----
 Ejemplo.
 
 DELETE /api/productos/hVhqJlh765cdNaGYPWVv
@@ -232,12 +228,13 @@ DELETE /api/productos/hVhqJlh765cdNaGYPWVv
 Ejemplo de Respuesta:
 
 Not 204 No Content.
----
+
+
 
 ### Buscar productos por campos (GET).
+___
 
-```
-Para Buscar Por anio del producto.
+## Para Buscar Por anio del producto.
 ```
 GET /api/products/search/:tipo?{campo}={valor}&{campo}={valor}
 
@@ -246,8 +243,9 @@ Ejemplo de Busqueda.
 ```
 GET /api/products/search/anio?anio=2025
 ```
+```
 Ejemplo de Respuesta:
-
+````
 {
         "id": "hVhqJlh765cdNaGYPWVv",
         "anio": 2025,
@@ -259,12 +257,10 @@ Ejemplo de Respuesta:
         "price": 10000,
         "color": "gris"
 }
+````
 
+## Para Buscar Por color del producto.
 
-```
-Para Buscar Por color del producto.
-
-```
 - Podemos buscar por el color nombre exacto.
 - Podemos buscarlos por alguna letra que contenga el nombre del color.
 
@@ -276,7 +272,7 @@ Ejemplo de Busqueda.
 ```
 GET /api/products/search/color?color=verde or /api/products/search/color?color=ver
 ```
-
+```
 Ejemplo de Respuesta:
 ```
 {
@@ -290,21 +286,22 @@ Ejemplo de Respuesta:
         "price": 10000,
         "color": "verde"
 }
-```
+````
 
-Para Buscar Por nameModel del producto.
+## Para Buscar Por nameModel del producto.
 
-```
+
 - Podemos buscar por el nameModel nombre exacto.
 - Podemos buscarlos por alguna letra que contenga el nameModel.
 
 ```
 GET /api/products/search/:tipo?{campo}={valor}&{campo}={valor}
-
+```
 Ejemplo de Busqueda.
 
 ```
 GET /api/products/search/nameModel?nameModel=cadeeeidella 1.4 or /api/products/search/nameModel?nameModel=cadee
+```
 ```
 Ejemplo de Respuesta:
 
@@ -321,10 +318,9 @@ Ejemplo de Respuesta:
 }
 
 
-```
-Para Buscar Por Rotation del producto.
+````
+## Para Buscar Por Rotation del producto.
 
-```
 - Podemos buscar por rotation del producto, nombre exacto.
 
 ```
@@ -350,10 +346,9 @@ Ejemplo de Respuesta:
 }
 
 
-```
-Para Buscar Por Marca del producto.
+````
+## Para Buscar Por Marca del producto.
 
-```
 - Podemos buscar por el Marca nombre exacto.
 - Podemos buscarlos por alguna letra que contenga la Marca.
 
